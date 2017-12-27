@@ -7,6 +7,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ratanak.pek.restful.dao.UserDaoService;
 import ratanak.pek.restful.model.User;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -26,11 +27,15 @@ public class UserController {
 
     @GetMapping(path = "/users/{id}")
     public User findOne(@PathVariable Integer id) {
-        return service.findOne(id);
+        User user =service.findOne(id);
+        if(user==null){
+            throw new UserNotFoundExceiption("ID : "+ id);
+        }
+        return user;
     }
 
     @PostMapping(path = "/users")
-    public ResponseEntity<Object> save(@RequestBody User user) {
+    public ResponseEntity<Object> save(@Valid @RequestBody User user) {
         User saveUser = service.save(user);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -40,4 +45,16 @@ public class UserController {
         return ResponseEntity.created(location).build();
     }
 
+    @DeleteMapping(path="/users/{id}")
+    public ResponseEntity<Object> removeUserById(@PathVariable Integer id) {
+        User saveUser = service.deleteUserById(id);
+        if(saveUser==null) throw new UserNotFoundExceiption("id -"+ id);
+
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(saveUser.getId())
+                .toUri();
+        return ResponseEntity.created(location).build();
+    }
 }

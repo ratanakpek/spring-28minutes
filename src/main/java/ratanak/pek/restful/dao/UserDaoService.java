@@ -1,6 +1,7 @@
 package ratanak.pek.restful.dao;
 
 import org.springframework.stereotype.Component;
+import ratanak.pek.restful.controller.UserNotFoundExceiption;
 import ratanak.pek.restful.model.User;
 
 import java.util.ArrayList;
@@ -41,6 +42,13 @@ public class UserDaoService {
             }
         }
         return null;
+    }
+    public User deleteUserById(int id){
+        if(users!=null){
+            return users.remove(id);
+        }else{
+            throw new UserNotFoundExceiption("User not found!");
+        }
     }
 
 }
