@@ -1,6 +1,8 @@
 package ratanak.pek.restful.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -26,12 +28,16 @@ public class UserController {
     }
 
     @GetMapping(path = "/users/{id}")
-    public User findOne(@PathVariable Integer id) {
+    public Resource<User> findOne(@PathVariable Integer id) {
         User user =service.findOne(id);
         if(user==null){
             throw new UserNotFoundExceiption("ID : "+ id);
         }
-        return user;
+
+        Resource<User> resource = new Resource<>(user);
+        ControllerLinkBuilder linkTo= ControllerLinkBuilder.linkTo(ControllerLinkBuilder.methodOn(this.getClass()).findAllUsers());
+        resource.add(linkTo.withRel("all-users"));
+        return resource;
     }
 
     @PostMapping(path = "/users")
