@@ -11,23 +11,35 @@ import ratanak.pek.restful.model.version.PersonV2;
  */
 @RestController
 public class VersionController {
+
+
     @GetMapping("/v1/person")
-    public PersonV1 v1(){
+    public PersonV1 v1() {
         return new PersonV1("Pek Ratanak");
     }
 
     @GetMapping("/v2/person")
-    public PersonV2 v2(){
+    public PersonV2 v2() {
         return new PersonV2(new Name("Pek", "Ratanak"));
     }
 
-    @GetMapping(value="/person/param", params ="version=1")
-    public PersonV1 paramv1(){
+    @GetMapping(value = "/person/param", params = "version=1")
+    public PersonV1 paramv1() {
         return new PersonV1("Pek Ratanak");
     }
 
-    @GetMapping(value="/person/param", params = "version=2")
-    public PersonV2 paramv2(){
+    @GetMapping(value = "/person/param", params = "version=2")
+    public PersonV2 paramv2() {
+        return new PersonV2(new Name("Pek", "Ratanak"));
+    }
+
+    @GetMapping(value = "/person/header", headers = "version=1")
+    public PersonV1 headerv1() {
+        return new PersonV1("Pek Ratanak");
+    }
+
+    @GetMapping(value = "/person/header", headers = "version=2")
+    public PersonV2 headerv2() {
         return new PersonV2(new Name("Pek", "Ratanak"));
     }
 }
