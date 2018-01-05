@@ -42,4 +42,14 @@ public class VersionController {
     public PersonV2 headerv2() {
         return new PersonV2(new Name("Pek", "Ratanak"));
     }
+
+    @GetMapping(value = "/person/produce", produces = "application/rtk.pk1+json")
+    public PersonV1 producev1() {
+        return new PersonV1("Pek Ratanak");
+    }
+
+    @GetMapping(value = "/person/produce", produces = "application/rtk.pk2+json")
+    public PersonV2 producev2() {
+        return new PersonV2(new Name("Pek", "Ratanak"));
+    }
 }
