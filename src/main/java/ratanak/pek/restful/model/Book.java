@@ -1,5 +1,6 @@
 package ratanak.pek.restful.model;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -7,8 +8,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  * Created by r.pek on 12/28/2017.
  */
 
+@JsonFilter("SomeBeanFilter")
 public class Book {
-    @JsonIgnore
     private String id;
     private String bookName;
     private String author;
